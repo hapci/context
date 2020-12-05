@@ -35,7 +35,10 @@ func Interrupt() context.Context {
 	defer mu.Unlock()
 
 	if len(cancelFuncs) == 0 {
-		go listen(os.Interrupt)
+		var sig = make(chan os.Signal, 1)
+		signal.Notify(sig, os.Interrupt)
+
+		go listen(sig)
 	}
 
 	cancelFuncs = append(cancelFuncs, cancel)
@@ -43,14 +46,10 @@ func Interrupt() context.Context {
 	return ctx
 }
 
-func listen(sig ...os.Signal) {
-	var sigStream = make(chan os.Signal, 1)
+func listen(sig chan os.Signal) {
+	<-sig
 
-	signal.Notify(sigStream, sig...)
-
-	<-sigStream
-
-	signal.Stop(sigStream)
+	signal.Stop(sig)
 
 	cancelContexts()
 }
