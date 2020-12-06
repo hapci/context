@@ -23,8 +23,11 @@ import (
 	"sync"
 )
 
-var mu = &sync.RWMutex{}
-var cancelFuncs []context.CancelFunc
+var (
+	mu = &sync.RWMutex{}
+	// cancelFuncs contains all context cancel functions.
+	cancelFuncs []context.CancelFunc
+)
 
 // Interrupt returns a context that is canceled when an interrupt
 // signal is received. It is allowed to call Interrupt multiple times.
@@ -35,7 +38,7 @@ func Interrupt() context.Context {
 	defer mu.Unlock()
 
 	if len(cancelFuncs) == 0 {
-		var sig = make(chan os.Signal, 1)
+		sig := make(chan os.Signal, 1)
 		signal.Notify(sig, os.Interrupt)
 
 		go listen(sig)
