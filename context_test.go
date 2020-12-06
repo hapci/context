@@ -25,7 +25,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestInterrupt_MultipleContexts_Parallel(t *testing.T) {
+func TestWithCancelSigInt_MultipleContexts_Parallel(t *testing.T) {
 	var ctx1 context.Context
 	var ctx2 context.Context
 	var ctx3 context.Context
@@ -36,21 +36,21 @@ func TestInterrupt_MultipleContexts_Parallel(t *testing.T) {
 	go func() {
 		defer wg.Done()
 
-		ctx1 = Interrupt()
+		ctx1 = WithCancelSigInt()
 		require.NotNil(t, ctx1)
 	}()
 
 	go func() {
 		defer wg.Done()
 
-		ctx2 = Interrupt()
+		ctx2 = WithCancelSigInt()
 		require.NotNil(t, ctx2)
 	}()
 
 	go func() {
 		defer wg.Done()
 
-		ctx3 = Interrupt()
+		ctx3 = WithCancelSigInt()
 		require.NotNil(t, ctx3)
 	}()
 
