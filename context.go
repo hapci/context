@@ -25,7 +25,7 @@ import (
 
 var (
 	mu = &sync.RWMutex{}
-	// cancelFuncs contains all context cancel functions.
+	// cancelFuncs contains all context cancel functions
 	cancelFuncs []context.CancelFunc
 )
 
