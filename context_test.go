@@ -18,6 +18,7 @@ package context
 
 import (
 	"context"
+	"fmt"
 	"sync"
 	"syscall"
 	"testing"
@@ -26,35 +27,35 @@ import (
 )
 
 func TestWithCancelSigInt_MultipleContexts_Parallel(t *testing.T) {
-	var ctx1 context.Context
-	var ctx2 context.Context
-	var ctx3 context.Context
-	var wg sync.WaitGroup
+	var (
+		ctx1, ctx2, ctx3 context.Context
+		ctxGroup         sync.WaitGroup
+	)
 
-	wg.Add(3)
+	ctxGroup.Add(3)
 
 	go func() {
-		defer wg.Done()
+		defer ctxGroup.Done()
 
 		ctx1 = WithCancelSigInt()
 		require.NotNil(t, ctx1)
 	}()
 
 	go func() {
-		defer wg.Done()
+		defer ctxGroup.Done()
 
 		ctx2 = WithCancelSigInt()
 		require.NotNil(t, ctx2)
 	}()
 
 	go func() {
-		defer wg.Done()
+		defer ctxGroup.Done()
 
 		ctx3 = WithCancelSigInt()
 		require.NotNil(t, ctx3)
 	}()
 
-	wg.Wait()
+	ctxGroup.Wait()
 
 	err := syscall.Kill(syscall.Getpid(), syscall.SIGINT)
 	require.NoError(t, err)
@@ -67,4 +68,22 @@ func TestWithCancelSigInt_MultipleContexts_Parallel(t *testing.T) {
 
 	<-ctx3.Done()
 	require.Equal(t, context.Canceled, ctx3.Err())
+}
+
+func ExampleWithCancelSigInt() {
+	ctx1 := WithCancelSigInt()
+	ctx2 := WithCancelSigInt()
+
+	fmt.Println("Sending interrupt signal")
+
+	err := syscall.Kill(syscall.Getpid(), syscall.SIGINT)
+	if err != nil {
+		panic(err)
+	}
+
+	<-ctx1.Done()
+	fmt.Println("Context 1 is done")
+
+	<-ctx2.Done()
+	fmt.Println("Context 2 is done")
 }
