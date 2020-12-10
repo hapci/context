@@ -1,17 +1,18 @@
 <pre>
-                    __            __ 
-  _________  ____  / /____  _  __/ /_
- / ___/ __ \/ __ \/ __/ _ \| |/_/ __/
-/ /__/ /_/ / / / / /_/  __//  // /_  
-\___/\____/_/ /_/\__/\___/_/|_|\__/
-
+                        __            __ 
+      _________  ____  / /____  _  __/ /_
+     / ___/ __ \/ __ \/ __/ _ \| |/_/ __/
+    / /__/ /_/ / / / / /_/  __//  // /_  
+    \___/\____/_/ /_/\__/\___/_/|_|\__/
+    
 </pre>
 
-[![PkgGoDev](https://pkg.go.dev/badge/github.com/hapci/context)](https://pkg.go.dev/github.com/hapci/context)
 [![Build Status](https://github.com/hapci/context/workflows/CI/badge.svg)](https://github.com/hapci/context/actions?query=workflow%3ACI)
-[![Go Report Card](https://goreportcard.com/badge/github.com/hapci/context)](https://goreportcard.com/report/github.com/hapci/context) 
+[![Coverage Status](https://codecov.io/gh/hapci/context/branch/master/graph/badge.svg)](https://codecov.io/gh/hapci/context)
+[![Go Report Card](https://goreportcard.com/badge/github.com/hapci/context)](https://goreportcard.com/report/github.com/hapci/context)
+[![PkgGoDev](https://pkg.go.dev/badge/github.com/hapci/context)](https://pkg.go.dev/github.com/hapci/context)
 
-Concurrent safe context handling of OS signals.
+__Concurrently safe context handling of OS signals.__
 
 ## Getting started
 

@@ -49,6 +49,12 @@ jobs:
       - name: Unit tests
         run: make test
 
+      - uses: codecov/codecov-action@v1
+        with:
+          file: .test_coverage.txt
+          flags: unittests
+          verbose: true
+
   linters:
     name: Linters
     runs-on: ubuntu-latest
