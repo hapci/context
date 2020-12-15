@@ -14,7 +14,7 @@
    limitations under the License.
 */
 
-package context
+package signal
 
 import (
 	"context"
@@ -29,10 +29,10 @@ var (
 	cancelFuncs []context.CancelFunc
 )
 
-// WithCancelSigInt returns a context that is canceled when an interrupt
-// signal is received. It is allowed to call WithCancelSigInt multiple times.
-func WithCancelSigInt() context.Context {
-	ctx, cancel := context.WithCancel(context.Background())
+// NotifyContext returns a context that is canceled when an interrupt
+// signal is received. It is allowed to call NotifyContext multiple times.
+func NotifyContext(parent context.Context) context.Context {
+	ctx, cancel := context.WithCancel(parent)
 
 	mu.Lock()
 	defer mu.Unlock()
