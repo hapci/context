@@ -1,4 +1,4 @@
-module github.com/hapci/context
+module github.com/hapci/signal
 
 go 1.15
 

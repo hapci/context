@@ -14,7 +14,7 @@
    limitations under the License.
 */
 
-package context
+package signal
 
 import (
 	"context"
@@ -26,7 +26,7 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func TestWithCancelSigInt_MultipleContexts_Parallel(t *testing.T) {
+func TestNotifyContext_MultipleContexts_Parallel(t *testing.T) {
 	var (
 		ctx1, ctx2, ctx3 context.Context
 		ctxGroup         sync.WaitGroup
@@ -37,21 +37,21 @@ func TestWithCancelSigInt_MultipleContexts_Parallel(t *testing.T) {
 	go func() {
 		defer ctxGroup.Done()
 
-		ctx1 = WithCancelSigInt()
+		ctx1 = NotifyContext(context.Background())
 		require.NotNil(t, ctx1)
 	}()
 
 	go func() {
 		defer ctxGroup.Done()
 
-		ctx2 = WithCancelSigInt()
+		ctx2 = NotifyContext(context.Background())
 		require.NotNil(t, ctx2)
 	}()
 
 	go func() {
 		defer ctxGroup.Done()
 
-		ctx3 = WithCancelSigInt()
+		ctx3 = NotifyContext(context.Background())
 		require.NotNil(t, ctx3)
 	}()
 
@@ -70,9 +70,9 @@ func TestWithCancelSigInt_MultipleContexts_Parallel(t *testing.T) {
 	require.Equal(t, context.Canceled, ctx3.Err())
 }
 
-func ExampleWithCancelSigInt() {
-	ctx1 := WithCancelSigInt()
-	ctx2 := WithCancelSigInt()
+func ExampleNotifyContext() {
+	ctx1 := NotifyContext(context.Background())
+	ctx2 := NotifyContext(context.Background())
 
 	fmt.Println("Sending interrupt signal")
 
