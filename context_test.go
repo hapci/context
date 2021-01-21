@@ -18,7 +18,6 @@ package signal
 
 import (
 	"context"
-	"fmt"
 	"sync"
 	"syscall"
 	"testing"
@@ -68,22 +67,4 @@ func TestNotifyContext_MultipleContexts_Parallel(t *testing.T) {
 
 	<-ctx3.Done()
 	require.Equal(t, context.Canceled, ctx3.Err())
-}
-
-func ExampleNotifyContext() {
-	ctx1 := NotifyContext(context.Background())
-	ctx2 := NotifyContext(context.Background())
-
-	fmt.Println("Sending interrupt signal")
-
-	err := syscall.Kill(syscall.Getpid(), syscall.SIGINT)
-	if err != nil {
-		panic(err)
-	}
-
-	<-ctx1.Done()
-	fmt.Println("Context 1 is done")
-
-	<-ctx2.Done()
-	fmt.Println("Context 2 is done")
 }
